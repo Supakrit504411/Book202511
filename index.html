@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ฟอร์มบันทึกข้อมูลพร้อมรูปภาพ</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #fef6f9;
+      color: #333;
+      padding: 20px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #e0e0e0;
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #a0d8ef;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #8ecae6;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="dataForm">
+    <h2>ฟอร์มบันทึกข้อมูล</h2>
+
+    <label>วันที่</label>
+    <input type="date" name="date" required>
+
+    <label>ชื่องาน</label>
+    <input type="text" name="title" required>
+
+    <label>งบประมาณ</label>
+    <select name="budget" required>
+      <option value="ต่ำกว่า 10,000">ต่ำกว่า 10,000</option>
+      <option value="10,000 - 50,000">10,000 - 50,000</option>
+      <option value="มากกว่า 50,000">มากกว่า 50,000</option>
+    </select>
+
+    <label>ผู้รับผิดชอบ</label>
+    <select name="owner" required>
+      <option value="คุณสมชาย">คุณสมชาย</option>
+      <option value="คุณสมหญิง">คุณสมหญิง</option>
+      <option value="ทีมงาน">ทีมงาน</option>
+    </select>
+
+    <label>สถานะ</label>
+    <select name="status" required>
+      <option value="รอดำเนินการ">รอดำเนินการ</option>
+      <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
+      <option value="เสร็จสิ้น">เสร็จสิ้น</option>
+    </select>
+
+    <label>แนบรูป (ไม่บังคับ)</label>
+    <input type="file" name="image" accept="image/*">
+
+    <label>หมายเหตุ</label>
+    <textarea name="note" rows="3"></textarea>
+
+    <button type="submit">บันทึกข้อมูล</button>
+  </form>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzUoqG7aSJmqKwuvBsbtq-5c7xl_vLqFYTbJMKdPcvH6YeRo3bGfr9n_n9RlUBp3PAuvA/exec';
+
+    document.getElementById('dataForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+
+      Swal.fire({
+        title: 'กำลังบันทึก...',
+        text: 'กรุณารอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(result => {
+        Swal.close();
+        if (result.result === 'success') {
+          Swal.fire('สำเร็จ!', 'บันทึกข้อมูลเรียบร้อยแล้ว', 'success');
+          form.reset();
+        } else {
+          Swal.fire('ผิดพลาด', result.message || 'ไม่สามารถบันทึกข้อมูลได้', 'error');
+        }
+      })
+      .catch(error => {
+        Swal.close();
+        Swal.fire('ผิดพลาด', error.message, 'error');
+      });
+    });
+  </script>
+
+</body>
+</html>

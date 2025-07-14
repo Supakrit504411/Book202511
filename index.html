@@ -2,8 +2,9 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>ฟอร์มบันทึกข้อมูลพร้อมรูปภาพ</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2
+  <title>ฟอร์มบันทึกข้อมูลงาน</title>
+  https://cdn.jsdelivr.net/npm/sweetalert2@11
+  <style>
     body {
       font-family: 'Prompt', sans-serif;
       background-color: #fef6f9;
@@ -46,7 +47,7 @@
 <body>
 
   <form id="dataForm">
-    <h2>ฟอร์มบันทึกข้อมูล</h2>
+    <h2>ฟอร์มบันทึกข้อมูลงาน</h2>
 
     <label>วันที่</label>
     <input type="date" name="date" required>
@@ -85,7 +86,7 @@
   </form>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzUoqG7aSJmqKwuvBsbtq-5c7xl_vLqFYTbJMKdPcvH6YeRo3bGfr9n_n9RlUBp3PAuvA/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyaByOiP-R765v3m_rm6Y1FKWDbKcNcOgstmu74UU54NfkAFf4U5zOa6CGbeul_LkTHiw/exec'; // เปลี่ยนเป็น URL ของ Apps Script ที่คุณ deploy แล้ว
 
     document.getElementById('dataForm').addEventListener('submit', function(e) {
       e.preventDefault();
